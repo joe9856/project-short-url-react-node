@@ -6,15 +6,15 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://short-url-react-node-api.example.invalid/api/:path*"
+      "destination": "https://project-short-url-react-node-osq6.vercel.app/api/:path*"
     },
     {
       "source": "/s/:path*",
-      "destination": "https://short-url-react-node-api.example.invalid/s/:path*"
+      "destination": "https://project-short-url-react-node-osq6.vercel.app/s/:path*"
     },
     {
       "source": "/healthz",
-      "destination": "https://short-url-react-node-api.example.invalid/healthz"
+      "destination": "https://project-short-url-react-node-osq6.vercel.app/healthz"
     },
     {
       "source": "/((?!api(?:/|$)|s(?:/|$)|healthz(?:/|$)).*)",

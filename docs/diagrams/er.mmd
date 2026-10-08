@@ -1,0 +1,37 @@
+erDiagram
+  users ||--o{ sessions : owns
+  users ||--o{ links : owns
+  links ||--o{ click_events : records
+  users {
+    char36 id PK
+    varchar100 name
+    varchar254 email UK
+    varchar255 password_hash
+    datetime3 created_at
+  }
+  sessions {
+    char64 token_hash PK
+    char36 user_id FK
+    datetime3 expires_at "indexed"
+  }
+  links {
+    char36 id PK
+    char36 user_id FK "index with created_at"
+    text original_url
+    varchar32 code UK
+    boolean is_active
+    datetime3 expires_at "nullable"
+    datetime3 created_at
+  }
+  click_events {
+    char36 id PK
+    char36 link_id FK "index with clicked_at"
+    datetime3 clicked_at
+    varchar253 referrer_host "nullable; hostname only"
+    varchar16 device_type
+  }
+  rate_limits {
+    char64 key PK "HMAC; no foreign key"
+    int count
+    datetime3 expires_at "indexed"
+  }

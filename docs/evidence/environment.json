@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-08T19:54:42.905Z",
+  "timezone": "Asia/Bangkok",
+  "platform": "win32",
+  "node": "22.23.3",
+  "mysql": "8.4.11",
+  "gitCommit": null,
+  "frontend": {
+    "@fontsource/noto-sans-thai": "5.3.0",
+    "@fontsource/poppins": "5.3.0",
+    "lucide-react": "1.53.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router-dom": "7.18.4",
+    "recharts": "3.10.1"
+  },
+  "backend": {
+    "express": "5.2.1",
+    "@prisma/client": "6.19.3",
+    "argon2": "0.45.1",
+    "cookie-parser": "1.4.7",
+    "helmet": "8.1.0",
+    "qrcode": "1.5.4",
+    "zod": "4.6.5",
+    "ua-parser-js": "1.0.41"
+  }
+}

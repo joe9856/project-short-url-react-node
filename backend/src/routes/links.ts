@@ -1,0 +1,13 @@
+import { Router } from "express";
+import * as links from "../controllers/links.js";
+import { stats } from "../controllers/stats.js";
+import { requireAuth } from "../middlewares/auth.js";
+import { rateLimit } from "../middlewares/security.js";
+export const linksRouter = Router();
+linksRouter.use(requireAuth);
+linksRouter.post("/", rateLimit("create", 60, 60), links.create);
+linksRouter.get("/", links.list);
+linksRouter.get("/:id", links.details);
+linksRouter.patch("/:id", links.update);
+linksRouter.get("/:id/qr", links.qr);
+linksRouter.get("/:id/stats", stats);

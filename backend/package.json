@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/server.ts",
+    "start": "node --env-file=.env dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "build": "prisma generate && tsc",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:dev": "prisma migrate dev",
+    "db:seed": "tsx --env-file=.env prisma/seed.ts"
+  },
+  "dependencies": {
+    "express": "5.2.1",
+    "@prisma/client": "6.19.3",
+    "argon2": "0.45.1",
+    "cookie-parser": "1.4.7",
+    "helmet": "8.1.0",
+    "qrcode": "1.5.4",
+    "zod": "4.6.5",
+    "ua-parser-js": "1.0.41"
+  },
+  "devDependencies": {
+    "prisma": "6.19.3",
+    "tsx": "4.21.0",
+    "@types/express": "5.0.6",
+    "@types/cookie-parser": "1.4.10",
+    "@types/qrcode": "1.5.6",
+    "@types/ua-parser-js": "0.7.39"
+  }
+}

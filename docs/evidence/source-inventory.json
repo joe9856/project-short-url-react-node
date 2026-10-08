@@ -1,0 +1,21 @@
+{
+  "measuredAt": "2026-10-08T19:46:06.540Z",
+  "method": "src only: .ts/.tsx/.css including .d.ts, excluding .test files; no generated/build/runtime/docs",
+  "applications": [
+    {
+      "directory": "frontend/src",
+      "files": 15,
+      "lines": 2443
+    },
+    {
+      "directory": "backend/src",
+      "files": 25,
+      "lines": 894
+    },
+    {
+      "directory": "../short-url-demo/src",
+      "files": 46,
+      "lines": 3568
+    }
+  ]
+}

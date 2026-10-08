@@ -1,0 +1,39 @@
+flowchart LR
+  Owner[ผู้ใช้ / เจ้าของลิงก์]
+  Visitor[ผู้เปิดลิงก์ / สแกน QR]
+  Auth((1.0 สมัคร / เข้าสู่ระบบ))
+  Links((2.0 จัดการลิงก์))
+  Redirect((3.0 ตรวจและส่งต่อ))
+  Stats((4.0 สรุปสถิติ))
+  QR((5.0 สร้าง QR))
+  Users[(D1 users)]
+  Sessions[(D2 sessions)]
+  LinkStore[(D3 links)]
+  Events[(D4 click_events)]
+  Limits[(D5 rate_limits)]
+  Destination[เว็บไซต์ปลายทาง]
+  Owner -->|name / email / password| Auth
+  Auth -->|hash / user data| Users
+  Users -->|password hash / user| Auth
+  Auth <-->|token hash / expiry| Sessions
+  Auth -->|HttpOnly cookie / user| Owner
+  Auth <-->|HMAC key / atomic count| Limits
+  Owner -->|session / URL / alias / filters| Links
+  Sessions -->|ตรวจสิทธิ์| Links
+  Links <-->|สร้าง / อ่าน / status / expiry| LinkStore
+  Links <-->|create limit| Limits
+  Links -->|private link / history| Owner
+  Visitor -->|GET / HEAD code| Redirect
+  LinkStore -->|destination / active / expiry| Redirect
+  Redirect -->|GET เท่านั้น: insert event ก่อน 302| Events
+  Redirect -->|302 Location| Visitor
+  Visitor -->|เปิด URL| Destination
+  Owner -->|session / date range / link id| Stats
+  Sessions -->|ตรวจสิทธิ์| Stats
+  LinkStore -->|owner links| Stats
+  Events -->|COUNT / Bangkok daily / source / device| Stats
+  Stats -->|JSON statistics| Owner
+  Owner -->|session / link id / format| QR
+  Sessions -->|ตรวจสิทธิ์| QR
+  LinkStore -->|owner link code| QR
+  QR -->|short URL encoded as PNG / SVG| Owner

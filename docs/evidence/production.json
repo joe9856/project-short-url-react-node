@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-10-09T14:34:20.848Z",
-  "commit": "a6679698e5c7d7ea0f8811ed11ab1a7e06274438",
+  "checkedAt": "2026-10-09T14:50:12.405Z",
+  "commit": "818575739598e8bbc25b0522195d4c476d7ee7dd",
   "origin": "https://project-short-url-react-node.vercel.app",
   "database": "TiDB Cloud (confirmed by project owner; not introspected)",
   "testLink": {
-    "id": "54961a99-9af1-4f8f-b841-01d3f6259069",
-    "code": "eg7agsgs",
-    "shortUrl": "https://project-short-url-react-node.vercel.app/s/eg7agsgs",
+    "id": "63da1ae1-96c2-434c-a959-e8461e597c78",
+    "code": "vcd5yye1",
+    "shortUrl": "https://project-short-url-react-node.vercel.app/s/vcd5yye1",
     "originalUrl": "https://www.synerry.com/?source=short-url-demo#demo"
   },
   "results": [
@@ -28,7 +28,7 @@
     {
       "name": "Random short URL uses public frontend domain",
       "status": "passed",
-      "detail": "https://project-short-url-react-node.vercel.app/s/eg7agsgs"
+      "detail": "https://project-short-url-react-node.vercel.app/s/vcd5yye1"
     },
     {
       "name": "HEAD redirects without counting a click",
@@ -41,14 +41,34 @@
       "detail": ""
     },
     {
-      "name": "Online acceptance",
-      "status": "failed",
-      "detail": "Expected values to be strictly equal:\n\n503 !== 302\n"
+      "name": "20 concurrent redirects produce exactly 20 clicks",
+      "status": "passed",
+      "detail": "History, Bangkok daily, source hostname and device agree; HEAD/QR do not count"
     },
     {
-      "name": "Final logout",
-      "status": "failed",
-      "detail": "Could not revoke test session"
+      "name": "Custom alias, future expiry and duplicate conflict",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "name": "Disable/enable, real expiry and clearing expiry",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "name": "Unknown link, protected QR and wrong/missing Origin",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "name": "Logout revokes the session",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "name": "Login again preserves link and click history",
+      "status": "passed",
+      "detail": ""
     }
   ],
   "limitations": [

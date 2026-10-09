@@ -75,6 +75,6 @@ cd D:\Projects-Short-URL\short-url-react-node
 
 รัน checks ที่เกี่ยวข้องและตรวจ diff/รายการไฟล์ที่จะ commit ห้ามเพิ่ม `.env`, `.local`, `.runtime`, database files, logs หรือรหัสผ่าน ใช้ remote ของโปรเจกต์นี้ หลัง deploy ตรวจ `/healthz` ผ่าน frontend, เปิด Short URL เดิม และล็อกอินบัญชีทดสอบเดิมเพื่อเทียบ ID/URL/จำนวนคลิกกับ snapshot ก่อน deploy โดยไม่รัน migration เพื่อทดสอบ persistence
 
-CI บน GitHub Actions ของ application commit `a6679698e5c7d7ea0f8811ed11ab1a7e06274438` ผ่านจริงทั้ง MySQL service/migrate, typecheck, lint, unit/React/API, integration, build และ Playwright Chromium บน Linux: https://github.com/joe9856/project-short-url-react-node/actions/runs/37857572675
+CI บน GitHub Actions ของ application commit `818575739598e8bbc25b0522195d4c476d7ee7dd` ผ่านจริงทั้ง MySQL service/migrate, typecheck, lint, 33 unit/React/API tests, 13 MySQL integration tests, build และ 6 Playwright Chromium scenarios บน Linux: https://github.com/joe9856/project-short-url-react-node/actions/runs/37946667118
 
 การสแกน QR ด้วยมือถือจริงและการตรวจ TLS options ภายในผู้ให้บริการต้องทำแยก ไม่อ้างว่าผ่านจาก QR decode หรือ HTTPS/API checks

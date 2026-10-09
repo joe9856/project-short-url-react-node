@@ -7,11 +7,13 @@
 - Frontend: https://project-short-url-react-node.vercel.app
 - Backend: https://project-short-url-react-node-osq6.vercel.app
 - Public GitHub: https://github.com/joe9856/project-short-url-react-node
-- Application commit ที่ตรวจ: `a6679698e5c7d7ea0f8811ed11ab1a7e06274438`
-- [GitHub Actions ที่ผ่าน](https://github.com/joe9856/project-short-url-react-node/actions/runs/37857572675): typecheck/lint/unit/build/MySQL integration/Playwright Chromium ทุกขั้นสำเร็จบน Linux
+- Application commit ที่ตรวจหลังแก้: `818575739598e8bbc25b0522195d4c476d7ee7dd`
+- [GitHub Actions ที่ผ่านหลังแก้](https://github.com/joe9856/project-short-url-react-node/actions/runs/37946667118): typecheck/lint/unit/build/MySQL integration/Playwright Chromium ทุกขั้นสำเร็จบน Linux
 - ตรวจซ้ำหลังแก้ serverless redirect: **33/33 tests** รวม regression ของ event insert failure, HEAD และการรักษา TLS/pool parameters
 - TypeScript/lint/build ผ่าน; MySQL integration **13/13** และ Playwright Edge **6/6** ที่ 390/768/1440px ผ่านหลังแก้; actual DB outage GET/HEAD ยังคง 503/no-store/no Location
 - ตรวจ production ผ่าน HTTPS: health, สมัครสมาชิก, login/me/logout/revoked session, Secure/HttpOnly/SameSite=Lax cookie, create, 302/query/fragment/no-store, HEAD non-count, QR PNG decode/SVG, history/click stats และ enable/disable ผ่าน
+- API ออนไลน์หลัง deploy โค้ดแก้: **20 concurrent GET = 20 persisted clicks**, source/device/daily Bangkok ตรงกัน, alias ซ้ำ 409, ปิด/หมดอายุจริง 410, ล้าง expiry แล้ว HEAD กลับเป็น 302 และ wrong/missing Origin ถูกบล็อก
+- เปิดหน้า Frontend production ผ่าน in-app browser ได้จริง ฟอร์มและ navigation แสดงหลังโหลดข้อมูล ส่วน flow ที่ล็อกอินตรวจผ่าน API ออนไลน์และ browser E2E ใน CI
 
 หลักฐาน API ออนไลน์ที่เก็บซ้ำด้วย `npm run verify:online` อยู่ [production.json](evidence/production.json) ไม่มี credentials และเป็นการตรวจ API/HTTP ไม่ใช่การสแกนจากโทรศัพท์หรือ manual browser audit
 
@@ -81,7 +83,7 @@ Screenshots มาจากข้อมูลทดสอบ localhost จริ
 3. Unicode ใน HTTP Location ต้อง serialize URL ก่อนตั้ง header; เพิ่ม MySQL test และปรับ body limit เป็น 40 KiB เพื่อรองรับ URL ภาษาไทยตาม character limit
 4. Prisma tooling มี deepmerge-ts advisory และ Router version แรกมี advisories อัปเดต React Router เป็น 7.18.4 และ override/pin deepmerge-ts 8.0.2 คง Prisma 6.19.3 แล้ว generate/build/migrate/integration/browser ซ้ำ
 5. C: เต็มและบางรอบมี memory pressure จัด npm cache/temp ลง D: และรัน browser tests แยกจาก checks อื่น รอบที่ล้มเหลวไม่นับว่าผ่าน Final isolated browser run ผ่าน 6/6; final lint รันหลัง browser ปิด
-6. Production batch 20 GET บน application commit `a667969` มีบางคำขอตอบ 503 และเก็บได้ 16 clicks: เก็บผลก่อนแก้ใน `evidence/production-before-fix.json` ปรับ redirect ให้ await single event insert โดยไม่ถือ interactive transaction และตั้ง Vercel pool defaults เป็น 3 connections / wait 30 seconds หาก connection string ไม่ได้ระบุค่าเอง ผลหลังแก้ต้องเทียบด้วย `production.json` ไม่ถือว่าผ่านจาก unit/MySQL อย่างเดียว
+6. Production batch 20 GET บน application commit `a667969` มีบางคำขอตอบ 503 และเก็บได้ 16 clicks: เก็บผลก่อนแก้ใน `evidence/production-before-fix.json` ปรับ redirect ให้ await single event insert โดยไม่ถือ interactive transaction และตั้ง Vercel pool defaults เป็น 3 connections / wait 30 seconds หาก connection string ไม่ได้ระบุค่าเอง หลัง deploy `8185757` ตรวจซ้ำผ่าน **20/20 redirects และ 20 clicks** ตาม `production.json` โดยไม่มี 503 ใน batch นี้ ไม่ได้อ้างผล unit/MySQL แทน production
 
 ## ยังไม่ตรวจ / สิ่งที่ต้องมีเพิ่ม
 

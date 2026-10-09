@@ -117,6 +117,6 @@ React 19.3.0, Vite 7.3.7, React Router 7.18.4, Tailwind 4.3.3, Express 5.2.1, Ty
 
 ## สถานะการส่งงาน
 
-Source ถูก push ไป Public GitHub และ deploy Frontend/Backend บน Vercel แล้ว `frontend/vercel.json` ใช้ backend hostname จริง ผล CI ของ application commit `a6679698e5c7d7ea0f8811ed11ab1a7e06274438` ผ่านทั้ง build, MySQL integration และ browser E2E ดูผลจริงและวันที่ตรวจใน `docs/verification.md`
+Source ถูก push ไป Public GitHub และ deploy Frontend/Backend บน Vercel แล้ว `frontend/vercel.json` ใช้ backend hostname จริง ผล CI ของ application commit `818575739598e8bbc25b0522195d4c476d7ee7dd` ผ่านทั้ง 33 unit/React/API tests, 13 MySQL integration tests, 6 browser E2E scenarios และ build ดูผลจริงและวันที่ตรวจใน `docs/verification.md`
 
-ตรวจออนไลน์ผ่าน HTTPS แล้วทั้งสมัคร/เข้า/ออกจากระบบ, Secure HttpOnly session cookie, สร้าง/เปิด Short URL, QR PNG/SVG, ประวัติ/คลิก และเปิด–ปิดลิงก์ QR ถูก decode ด้วยโปรแกรมเป็น public Short URL ถูกต้อง ส่วนการสแกนด้วยโทรศัพท์จริงและการยอมรับ TiDB ตามโจทย์ต้องยืนยันแยก ไม่ควรระบุว่างานสองส่วนนี้ผ่านหากยังไม่มีหลักฐาน
+ตรวจออนไลน์ผ่าน HTTPS แล้วทั้งสมัคร/เข้า/ออกจากระบบ, Secure HttpOnly session cookie, สร้าง/เปิด Short URL, QR PNG/SVG, ประวัติ/คลิก, alias/duplicate, เปิด–ปิด/วันหมดอายุ และ **20 concurrent GET = 20 clicks** QR ถูก decode ด้วยโปรแกรมเป็น public Short URL ถูกต้อง ส่วนการสแกนด้วยโทรศัพท์จริงและการยอมรับ TiDB ตามโจทย์ต้องยืนยันแยก ไม่ควรระบุว่างานสองส่วนนี้ผ่านหากยังไม่มีหลักฐาน

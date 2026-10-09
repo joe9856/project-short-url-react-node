@@ -21,6 +21,7 @@
     "test": "vitest run",
     "test:mysql": "node --env-file=backend/.env scripts/test-mysql.mjs",
     "test:outage": "node --env-file=backend/.env scripts/test-outage.mjs",
+    "verify:online": "node scripts/verify-online.mjs",
     "audit:prod": "node scripts/dependency-audit.mjs",
     "docs:diagrams": "node scripts/diagrams-doc.mjs && node scripts/render-diagrams.mjs",
     "test:e2e": "node --env-file=backend/.env scripts/test-e2e.mjs",

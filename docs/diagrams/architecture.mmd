@@ -1,10 +1,10 @@
 flowchart TB
   Browser[Browser / React SPA]
-  subgraph FrontendProject[Frontend Vercel project - planned]
+  subgraph FrontendProject[Frontend Vercel project - deployed]
     Static[Vite dist / React Router / Thai UI]
     Proxy[Rewrites: /api /s /healthz]
   end
-  subgraph BackendProject[Backend Vercel project - planned]
+  subgraph BackendProject[Backend Vercel project - deployed]
     App[Express default export: src/app.ts]
     Middleware[Origin / session / rate limit / errors]
     Routes[Router]
@@ -12,16 +12,10 @@ flowchart TB
     Services[Service: business logic]
     Prisma[Prisma 6.19.3 - mysql connector]
   end
-  Database[(New cloud MySQL or approved TiDB - pending)]
+  Database[(TiDB Cloud - production)]
   Browser -->|HTML / CSS / JS| Static
   Browser -->|same-origin Fetch / HttpOnly cookie / public redirect| Proxy
   Proxy -->|preserve path and query| App
   App --> Middleware --> Routes --> Controllers --> Services --> Prisma
-  Prisma -->|TLS strict| Database
+  Prisma -->|MySQL-compatible connection| Database
   Services -->|QR PNG / SVG or 302 after event commit| App
-  subgraph Local[Implemented and tested local topology]
-    Vite[Vite localhost:5173]
-    Express[Express localhost:3001]
-    MySQL[(Independent MySQL 8.4.11 port 3308)]
-    Vite -->|dev proxy with /s/ boundary| Express --> MySQL
-  end

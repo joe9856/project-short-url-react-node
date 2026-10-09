@@ -1,6 +1,6 @@
 # เปรียบเทียบ React + Express กับ Next.js
 
-เปรียบเทียบจาก source ใน `D:\Projects\short-url-react-node` และการอ่าน source/เอกสารใน `D:\Projects\short-url-demo` แบบ read-only วันที่ 9 ตุลาคม 2026 ไม่มีการเปลี่ยนไฟล์หรือรัน build/migration ของ Next.js ในงานนี้
+เปรียบเทียบจาก source ใน `D:\Projects-Short-URL\short-url-react-node` และการอ่าน source/เอกสารใน `D:\Projects\short-url-demo` แบบ read-only วันที่ 9 ตุลาคม 2026 ไม่มีการเปลี่ยนไฟล์หรือรัน build/migration ของ Next.js ในงานนี้
 
 ## ความครบของงาน
 
@@ -14,13 +14,13 @@
 | 2. Backend code complexity | Route → Controller → Service → Prisma ชัดเจน มี middleware กลาง ต้องดูแล routing/server entry/proxy เอง | HTTP อยู่ใน route.ts ตามโฟลเดอร์ มีบริการและ Prisma เหมือนกัน ลด Express wiring แต่ต้องเข้าใจ Next request/runtime |
 | 3. TypeScript difficulty | ใช้ interface, union, optional fields, basic Fetch generic, Express Request/Response และ Zod parse | พื้นฐาน types ใกล้เคียงกัน เพิ่ม types ของ framework/server-client props; ไม่ควรเลือก stack เพียงเพื่อหลบ TypeScript |
 | 4. Project structure | frontend/backend แยกชัด 2 package configs และ root workspace | แอปเดียว src/app + components/services/lib เข้าใจง่ายเมื่อคุ้น convention |
-| 5. จำนวน application files | 40 ไฟล์: frontend/src 15 และ backend/src 25 ไม่นับ tests/generated/build; มี plumbing/config เพิ่มนอก source | 46 ไฟล์ใน src ตามวิธีนับเดียวกัน จำนวนไฟล์น้อยกว่าไม่ได้แปลว่า code ง่ายกว่า เพราะหน้าที่และ grouping ต่างกัน |
+| 5. จำนวน application files | 41 ไฟล์: frontend/src 15 และ backend/src 26 ไม่นับ tests/generated/build; มี plumbing/config เพิ่มนอก source | 46 ไฟล์ใน src ตามวิธีนับเดียวกัน จำนวนไฟล์น้อยกว่าไม่ได้แปลว่า code ง่ายกว่า เพราะหน้าที่และ grouping ต่างกัน |
 | 6. Deployment complexity | 1 repository, 2 Vercel projects, backend domain + frontend rewrite/APP_URL/cookie ต้องตั้งและทดสอบร่วมกัน | 1 Next application project กับฐานข้อมูล ลดจำนวน hosting settings ตามเอกสารเดิม |
 | 7. Security/maintainability | Argon2id, opaque token/hash DB, Origin, ownership, DB limits/events ใช้ explicit middleware; ต้องดูแลสอง build/dependency sets | เอกสาร/source เดิมใช้ Argon2id, iron-session + DB revocation, ownership/Origin/DB limits/events เหมือนกัน framework ไม่ได้ทำ ownership ให้อัตโนมัติ |
 | 8. Testing results | ผลที่รันจริงในงานนี้อยู่ verification.md และ JSON evidence มี unit/React/Supertest, MySQL integration, browser 3 viewports และ outage | เอกสารเดิมรายงาน 19 unit, 16 MySQL integration groups, 16 TiDB groups และ 1 complete E2E scenario ครอบคลุม 3 viewports; ไม่ได้ rerun ในงานนี้ |
 | 9. อธิบายในสัมภาษณ์ | เหมาะกับผู้เรียนที่อยากเล่า React event → HTTP → Express → DB แต่ต้องอธิบาย proxy/serverless deployment เพิ่ม | อธิบาย full-stack ใน framework เดียวสั้นกว่าเมื่อเข้าใจ server/client, route handlers และ rendering conventions |
 
-จำนวนบรรทัด/ไฟล์ที่วัดจริงและวิธีนับอยู่ `docs/evidence/source-inventory.json` ไม่นับ `.test.tsx` และนับเฉพาะ `.ts`, `.tsx`, `.css` ใน src รวม `.d.ts`; configuration/docs/runtime ไม่รวม เปรียบเทียบจำนวน test cases ตรง ๆ เพื่อจัดอันดับไม่ได้ เพราะแต่ละ suite แบ่ง assertions เป็น groups ไม่เหมือนกัน
+จำนวนบรรทัด/ไฟล์ที่วัดจริงและวิธีนับอยู่ `docs/evidence/source-inventory.json` ไม่นับ `.test.tsx` และนับเฉพาะ `.ts`, `.tsx`, `.css` ใน src รวม `.d.ts`; configuration/docs/runtime ไม่รวม จำนวน React/Express วัดใหม่หลังแก้ ส่วน Next.js เก็บผลวัดเดิมพร้อมวันที่ เพราะ source ไม่ได้อยู่ใน workspace ปัจจุบัน เปรียบเทียบจำนวน test cases ตรง ๆ เพื่อจัดอันดับไม่ได้ เพราะแต่ละ suite แบ่ง assertions เป็น groups ไม่เหมือนกัน
 
 ## ความเหมาะสมสำหรับผู้พัฒนามือใหม่
 

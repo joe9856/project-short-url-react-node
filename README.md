@@ -2,6 +2,17 @@
 
 ระบบย่อลิงก์ภาษาไทยที่ทำงานจริง แยก React SPA และ Express REST API ใน repository เดียว พัฒนาตาม `PLAN.md` เพื่อเปรียบเทียบกับ Next.js โดยไม่ได้แก้ไขโปรเจกต์ `D:\Projects\short-url-demo` ไม่ใช้ `.env`, Git, session secret หรือฐานข้อมูลของโปรเจกต์เดิม
 
+## ทดลองออนไลน์และ Repository
+
+- **เว็บสำหรับผู้ตรวจ:** https://project-short-url-react-node.vercel.app
+- **Source Code (Public):** https://github.com/joe9856/project-short-url-react-node
+- **Backend health:** https://project-short-url-react-node-osq6.vercel.app/healthz
+- **ฐานข้อมูล:** MySQL 8.4 สำหรับ local/CI; **TiDB Cloud สำหรับ production** ตามข้อมูลที่ผู้ดูแลยืนยัน ใช้ Prisma MySQL connector แต่ TiDB ไม่ใช่ MySQL แท้ ต้องยืนยันกับบริษัทว่าอนุญาตตามโจทย์
+
+เปิดเว็บ → สมัครสมาชิก → สร้างลิงก์ → คัดลอก/เปิดลิงก์สั้น → ดาวน์โหลดหรือสแกน QR → ดูประวัติและสถิติ ผู้เปิดลิงก์สั้นไม่ต้องล็อกอิน ผู้ตรวจสมัครบัญชีของตนเองได้ จึงไม่ต้องใช้บัญชีร่วมกัน บัญชีสาธิตที่ส่งให้ผู้ตรวจแยกเก็บนอก repository
+
+Backend เป็น Modular Monolith แยกจาก React SPA เป็นสอง Vercel projects มี Architecture Diagram แต่ไม่ได้อ้างว่าเป็น Microservices ดู [ผลตรวจออนไลน์และ CI](docs/verification.md) และ [รายการส่งงาน](docs/submission.md)
+
 ## สิ่งที่ทำได้
 
 - สมัครสมาชิก เข้าสู่ระบบ และออกจากระบบด้วย Argon2id และ session ในฐานข้อมูล
@@ -20,11 +31,13 @@
 ใช้ **Node.js 22.12+ ในสาย 22 LTS** และ MySQL 8.4 แยกสำหรับโปรเจกต์นี้ ดู [คู่มือ environment และฐานข้อมูล](docs/setup.md)
 
 ```powershell
-cd D:\Projects\short-url-react-node
+git clone https://github.com/joe9856/project-short-url-react-node.git
+cd project-short-url-react-node
 node --version
 npm.cmd ci
 Copy-Item .env.example backend/.env
 # แก้ DATABASE_URL, APP_URL และ RATE_LIMIT_SECRET ใน backend/.env
+# เริ่ม MySQL และสร้างฐานข้อมูลตาม docs/setup.md ก่อน migration
 npm.cmd run db:generate
 npm.cmd run db:migrate
 npm.cmd run dev
@@ -35,7 +48,7 @@ npm.cmd run dev
 เครื่องที่ใช้พัฒนานี้มี `.runtime/` และ `backend/.env` ซึ่งสร้างใหม่พร้อม credentials เฉพาะโปรเจกต์แล้ว ไม่ต้องคัดลอก `.env.example` ทับไฟล์ที่มีอยู่ ใช้คำสั่งต่อไปนี้ได้เมื่อ MySQL รันอยู่:
 
 ```powershell
-cd D:\Projects\short-url-react-node
+cd D:\Projects-Short-URL\short-url-react-node
 node scripts/local.mjs run dev
 ```
 
@@ -54,6 +67,7 @@ node scripts/local.mjs run dev
 | `npm run test:mysql` | migrate และทดสอบ MySQL จริงใน `short_url_react_node_test` |
 | `npm run test:e2e` | Playwright บน test DB ที่ 390/768/1440px; ปิด dev server ก่อน |
 | `npm run test:outage` | ตรวจ health/GET/HEAD 503 เมื่อ DB ติดต่อไม่ได้ หลัง build |
+| `npm run verify:online` | ตรวจ API/QR/redirect/คลิกพร้อมกัน 20 ครั้งผ่าน HTTPS ด้วยบัญชีทดสอบเฉพาะ |
 | `npm run audit:prod` | ตรวจ dependency production และบันทึก JSON evidence |
 | `npm run docs:diagrams` | สร้าง Mermaid docs และ render SVG/PNG เมื่อมี Mermaid runtime |
 | `npm run build` | build Vite และ generate Prisma/compile Express |
@@ -93,8 +107,9 @@ React 19.3.0, Vite 7.3.7, React Router 7.18.4, Tailwind 4.3.3, Express 5.2.1, Ty
 
 - [API และตัวอย่าง request/response](docs/api.md)
 - [Environment, local MySQL, TiDB และการเริ่มระบบ](docs/setup.md)
-- [เตรียม GitHub/Vercel และตรวจ production](docs/deployment.md)
+- [GitHub/Vercel ที่ใช้งานและวิธี deploy](docs/deployment.md)
 - [ผลทดสอบจริงและข้อจำกัด](docs/verification.md)
+- [รายการส่งงานและขั้นตอนสาธิต](docs/submission.md)
 - [รายการไฟล์ที่สร้าง](docs/evidence/files-created.json)
 - [แผนภาพ DFD Level 0, ER และ Architecture](docs/diagrams.md) พร้อม Mermaid source ใน `docs/diagrams/`
 - [อธิบายแต่ละฟังก์ชันและเตรียมสัมภาษณ์](docs/learning-and-interview.md)
@@ -102,6 +117,6 @@ React 19.3.0, Vite 7.3.7, React Router 7.18.4, Tailwind 4.3.3, Express 5.2.1, Ty
 
 ## สถานะการส่งงาน
 
-ระบบ local และเอกสารอยู่ในโฟลเดอร์ใหม่ ยังไม่ได้ commit, push, สร้าง remote repository หรือ deploy ต้องยืนยัน GitHub destination, Vercel 2 projects, frontend/backend domains และ cloud DB ใหม่ก่อน `frontend/vercel.json` มี hostname `.invalid` เป็น placeholder ที่ตั้งใจให้ใช้ deploy จริงไม่ได้ ดูขั้นตอนใน deployment guide
+Source ถูก push ไป Public GitHub และ deploy Frontend/Backend บน Vercel แล้ว `frontend/vercel.json` ใช้ backend hostname จริง ผล CI ของ application commit `a6679698e5c7d7ea0f8811ed11ab1a7e06274438` ผ่านทั้ง build, MySQL integration และ browser E2E ดูผลจริงและวันที่ตรวจใน `docs/verification.md`
 
-TiDB เป็น MySQL-compatible ไม่ใช่ MySQL แท้ ต้องยืนยันกับบริษัทว่าใช้ได้ และทดสอบ migration/TLS/CRUD/concurrency บนฐานข้อมูล cloud ของโปรเจกต์นี้จริงก่อนกล่าวว่าพร้อม production QR ถูก decode ด้วยโปรแกรมใน tests; การสแกนจากโทรศัพท์จริงและ HTTPS proxy/cookie roundtrip ยังต้องตรวจหลังมี public URL
+ตรวจออนไลน์ผ่าน HTTPS แล้วทั้งสมัคร/เข้า/ออกจากระบบ, Secure HttpOnly session cookie, สร้าง/เปิด Short URL, QR PNG/SVG, ประวัติ/คลิก และเปิด–ปิดลิงก์ QR ถูก decode ด้วยโปรแกรมเป็น public Short URL ถูกต้อง ส่วนการสแกนด้วยโทรศัพท์จริงและการยอมรับ TiDB ตามโจทย์ต้องยืนยันแยก ไม่ควรระบุว่างานสองส่วนนี้ผ่านหากยังไม่มีหลักฐาน

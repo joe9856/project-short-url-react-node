@@ -1,6 +1,23 @@
 # ผลตรวจจริง
 
-ตรวจวันที่ **9 ตุลาคม 2026 (Asia/Bangkok)** บน Windows ใช้ Node.js **22.23.3** ที่ติดตั้งแยกใน `.runtime/`, MySQL Community 8.4.11 ใหม่บน loopback port 3308 และ Microsoft Edge headless ชุดทดสอบใช้ฐานข้อมูล `short_url_react_node_test` แยกจาก development และ Next.js เดิม
+ตรวจวันที่ **9 ตุลาคม 2026 (Asia/Bangkok)** แยกหลักฐาน local, GitHub Actions และ production HTTPS เพื่อไม่ใช้ผลชุดหนึ่งอ้างแทนอีกชุดหนึ่ง Production ใช้ **TiDB Cloud** ตามข้อมูลผู้ดูแลที่ยืนยัน ไม่ใช่ MySQL แท้ ส่วน local/CI ใช้ **MySQL 8.4**
+
+## ผลออนไลน์และ CI ล่าสุด
+
+- Frontend: https://project-short-url-react-node.vercel.app
+- Backend: https://project-short-url-react-node-osq6.vercel.app
+- Public GitHub: https://github.com/joe9856/project-short-url-react-node
+- Application commit ที่ตรวจ: `a6679698e5c7d7ea0f8811ed11ab1a7e06274438`
+- [GitHub Actions ที่ผ่าน](https://github.com/joe9856/project-short-url-react-node/actions/runs/37857572675): typecheck/lint/unit/build/MySQL integration/Playwright Chromium ทุกขั้นสำเร็จบน Linux
+- ตรวจซ้ำหลังแก้ serverless redirect: **33/33 tests** รวม regression ของ event insert failure, HEAD และการรักษา TLS/pool parameters
+- TypeScript/lint/build ผ่าน; MySQL integration **13/13** และ Playwright Edge **6/6** ที่ 390/768/1440px ผ่านหลังแก้; actual DB outage GET/HEAD ยังคง 503/no-store/no Location
+- ตรวจ production ผ่าน HTTPS: health, สมัครสมาชิก, login/me/logout/revoked session, Secure/HttpOnly/SameSite=Lax cookie, create, 302/query/fragment/no-store, HEAD non-count, QR PNG decode/SVG, history/click stats และ enable/disable ผ่าน
+
+หลักฐาน API ออนไลน์ที่เก็บซ้ำด้วย `npm run verify:online` อยู่ [production.json](evidence/production.json) ไม่มี credentials และเป็นการตรวจ API/HTTP ไม่ใช่การสแกนจากโทรศัพท์หรือ manual browser audit
+
+## ผล local เดิม
+
+ผล local ด้านล่างมาจาก Windows ใช้ Node.js **22.23.3** ใน `.runtime/`, MySQL Community 8.4.11 บน loopback port 3308 และ Microsoft Edge headless ชุดทดสอบใช้ `short_url_react_node_test` แยกจาก development และโปรเจกต์อื่น
 
 ## ผลสำเร็จ
 
@@ -25,7 +42,7 @@
 
 รายละเอียดเวอร์ชันอยู่ [environment.json](evidence/environment.json) และรายการไฟล์ที่สร้างอยู่ [files-created.json](evidence/files-created.json)
 
-เป็นผลจาก local working files ไม่มี commit SHA เพราะยังไม่ได้ commit ตามเงื่อนไขผู้ใช้ ไม่ใช่ผลจาก GitHub Actions, Vercel หรือ TiDB ของโปรเจกต์ใหม่
+ไฟล์ `unit.json`, `mysql.json`, `e2e.json` และ screenshots เป็นหลักฐาน local จากช่วงพัฒนา ไม่ใช่ผล TiDB production ผล CI มี run URL/commit และผล API production มี `production.json` แยกไว้ด้านบน
 
 ## Backend ที่ตรวจ
 
@@ -41,7 +58,7 @@
 - referrer hostname ไม่เก็บ query/path, device category ไม่เก็บ full UA/IP ใน ClickEvent
 - Origin ผิด/ไม่มี Origin 403, malformed JSON 400, oversized body 413, structured errors
 - atomic rate-limit 20 requests ยอมรับ 5, expiry reset และ HTTP login request ที่ 21 เป็น 429 พร้อม Retry-After
-- database connection failure จริงทำให้ health/GET/HEAD เป็น 503; unit failure path ไม่ตอบ 302 เมื่อ transaction ล้มเหลว
+- database connection failure จริงทำให้ health/GET/HEAD เป็น 503; unit failure path ไม่ตอบ 302 เมื่อ event insert ล้มเหลว
 
 ## Browser ที่ตรวจ
 
@@ -64,14 +81,15 @@ Screenshots มาจากข้อมูลทดสอบ localhost จริ
 3. Unicode ใน HTTP Location ต้อง serialize URL ก่อนตั้ง header; เพิ่ม MySQL test และปรับ body limit เป็น 40 KiB เพื่อรองรับ URL ภาษาไทยตาม character limit
 4. Prisma tooling มี deepmerge-ts advisory และ Router version แรกมี advisories อัปเดต React Router เป็น 7.18.4 และ override/pin deepmerge-ts 8.0.2 คง Prisma 6.19.3 แล้ว generate/build/migrate/integration/browser ซ้ำ
 5. C: เต็มและบางรอบมี memory pressure จัด npm cache/temp ลง D: และรัน browser tests แยกจาก checks อื่น รอบที่ล้มเหลวไม่นับว่าผ่าน Final isolated browser run ผ่าน 6/6; final lint รันหลัง browser ปิด
+6. Production batch 20 GET บน application commit `a667969` มีบางคำขอตอบ 503 และเก็บได้ 16 clicks: เก็บผลก่อนแก้ใน `evidence/production-before-fix.json` ปรับ redirect ให้ await single event insert โดยไม่ถือ interactive transaction และตั้ง Vercel pool defaults เป็น 3 connections / wait 30 seconds หาก connection string ไม่ได้ระบุค่าเอง ผลหลังแก้ต้องเทียบด้วย `production.json` ไม่ถือว่าผ่านจาก unit/MySQL อย่างเดียว
 
 ## ยังไม่ตรวจ / สิ่งที่ต้องมีเพิ่ม
 
-- Cloud DB ใหม่ของโปรเจกต์นี้: ยังไม่มี credentials จึงยังไม่ได้ทดสอบ TiDB/hosted MySQL TLS/DDL/transactions จริง
-- GitHub Actions บน Linux: เตรียม workflow แล้ว ยังไม่มี repository ใหม่ให้รัน
-- Vercel 2 projects: มี entry/config/rewrites แต่ placeholder backend hostname ต้องยืนยันและแก้ก่อน deploy
-- HTTPS production cookie/proxy roundtrip, redirects/cache headers, SPA deep link refresh และ persistence หลัง redeploy
+- ค่า database TLS options/DDL ภายใน Vercel/TiDB: ไม่ได้เข้าถึงบัญชีผู้ให้บริการหรือ production connection string การระบุชนิด DB อ้างข้อมูลที่ผู้ดูแลยืนยัน ส่วน DB operations ยืนยันด้วย API ออนไลน์ ค่า pool ใน code มี default แต่ให้ค่าของผู้ดูแลใน connection string มาก่อน
+- การยอมรับ TiDB Cloud แทน MySQL ตามโจทย์: ต้องยืนยันกับบริษัท
+- Persistence หลัง redeploy: เก็บผลเทียบ ID/URL/click count ก่อน–หลัง deployment แยกจากผล refresh/login ปกติ
+- Manual production browser audit: รอบนี้ตรวจ HTTP/HTML/API; browser E2E ใน CI ใช้ test MySQL ไม่ใช่ production
 - สแกน QR จากโทรศัพท์จริง ภาพ decode ด้วยโปรแกรมและ browser download ผ่านแล้ว
 - Manual screen-reader audit, user research, load test ระยะยาว และ cost benchmark ยังไม่ได้ทำ
 
-ไม่ควรนำผล local หรือ configuration มาอ้างว่า production deploy ผ่าน สามารถเริ่มใช้งาน local และอ่านโค้ด/สาธิตระบบได้แล้ว
+ระบบออนไลน์ผ่านการตรวจ API จริงแล้ว และ CI ของ application commit ผ่านตามลิงก์ด้านบน งานที่ยังไม่ตรวจระบุแยกไว้ ไม่ใช้ QR decode อ้างแทนการสแกนโทรศัพท์หรือใช้ผล API อ้างแทนการตรวจค่า TLS ภายใน provider

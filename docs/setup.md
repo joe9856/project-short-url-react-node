@@ -2,7 +2,7 @@
 
 ## ขอบเขตและข้อกำหนด
 
-คำสั่งทั้งหมดต้องรันจาก `D:\Projects\short-url-react-node` เท่านั้น ใช้ Node 22.12+ สาย LTS 22 และ MySQL 8.4 แยกจาก Next.js ทั้ง port, data directory, user, password และ database ห้ามนำ credentials หรือ `.env` เดิมมาใช้
+รันคำสั่งจากโฟลเดอร์ repository ที่มี root `package.json` หลัง clone ใช้ `cd project-short-url-react-node` ส่วน workspace บนเครื่องนี้อยู่ที่ `D:\Projects-Short-URL\short-url-react-node` ใช้ Node 22.12+ สาย LTS 22 และ MySQL 8.4 แยกจากโปรเจกต์อื่นทั้ง port, data directory, user, password และ database ห้ามนำ credentials หรือ `.env` ของโปรเจกต์อื่นมาใช้
 
 ## Backend environment
 
@@ -48,7 +48,7 @@ Setup ทำครั้งแรกแล้ว: ฐานข้อมูล `s
 หลังเปิดเครื่องใหม่:
 
 ```powershell
-cd D:\Projects\short-url-react-node
+cd D:\Projects-Short-URL\short-url-react-node
 node scripts/mysql-control.mjs start
 node scripts/local.mjs run db:migrate
 node scripts/local.mjs run dev
@@ -59,6 +59,10 @@ node scripts/local.mjs run dev
 สำหรับ Windows ใหม่ที่ไม่มี Docker ให้ดาวน์โหลด binary distribution MySQL 8.4 จาก Oracle และวางตาม path นี้ จากนั้น `node scripts/setup-local-mysql.mjs` จะปฏิเสธการเขียนทับ `.env` และ data directory เดิม `--finish` เป็นตัวช่วยกู้การตั้งค่าครั้งแรกเมื่อ initialization สำเร็จแต่ start server ยังไม่สำเร็จ ไม่ใช่คำสั่งใช้งานประจำ
 
 ## TiDB Cloud หรือ Hosted MySQL
+
+Production ของระบบนี้ใช้ **TiDB Cloud** ตามข้อมูลที่ผู้ดูแลยืนยันวันที่ 9 ตุลาคม 2026 ส่วน local และ GitHub Actions ใช้ **MySQL 8.4** Prisma ใช้ `provider = "mysql"` ทั้งสองกรณี แต่ TiDB เป็นฐานข้อมูล MySQL-compatible จึงต้องยืนยันกับบริษัทก่อนส่งว่าใช้แทน MySQL ตามโจทย์ได้
+
+บน Vercel หาก `DATABASE_URL` ไม่ระบุ `connection_limit`/`pool_timeout` โค้ดตั้ง defaults เป็น 3 connections ต่อ instance และรอ pool 30 วินาที ค่าที่ผู้ดูแลระบุเองยังมีผล และ URL/TLS/credentials ไม่ถูกเปลี่ยน ช่วยควบคุมจำนวน connections และลดโอกาส pool timeout ระหว่าง batch requests ดู [Prisma ORM v6 connection pool](https://www.prisma.io/docs/orm/v6/prisma-client/setup-and-configuration/databases-connections/connection-pool) ค่าที่เหมาะสมต้องสัมพันธ์กับ quota ของ DB และจำนวน Vercel instances
 
 สร้าง service/database และ credentials ใหม่ของโปรเจกต์นี้ เลือก region ใกล้ backend และตั้ง IP/access policy ให้เหมาะสม ตามแผนต้องยืนยัน HR ว่า TiDB ใช้ได้ TiDB ใช้ connector `mysql` แต่ README ต้องเรียกฐานข้อมูลตามจริง
 
@@ -72,7 +76,7 @@ mysql://NEW_USER:ENCODED_PASSWORD@NEW_HOST:4000/short_url_react_node?sslaccept=s
 
 port และ CA แตกต่างตามผู้ให้บริการ ไม่ใช่ credentials ใช้จริง ดู [TiDB connection documentation](https://docs.pingcap.com/tidbcloud/connect-via-standard-connection/) และ [Prisma MySQL connector](https://www.prisma.io/docs/orm/overview/databases/mysql)
 
-ทดสอบ migration, SELECT/CRUD, unique/FK, rate-limit transaction และ 20 concurrent redirects บน cloud development ใหม่ก่อน production เครื่องนี้ทดสอบ MySQL local แล้ว แต่ยังไม่มี credentials ของ cloud database ใหม่ จึงยังไม่ได้ทดสอบ TiDB ของโปรเจกต์นี้
+เว็บ production เชื่อมฐานข้อมูลและทำ auth/CRUD/redirect/analytics ผ่าน public HTTPS ได้จริง รายละเอียดอยู่ `verification.md` ไม่ได้ดาวน์โหลด production credentials หรือรัน migration บน cloud จากเครื่องนี้ ผล MySQL integration และผล API ออนไลน์จึงเป็นคนละชุดหลักฐาน การตรวจ connection string/TLS options ภายในผู้ให้บริการต้องทำจากบัญชี Vercel/TiDB ของผู้ดูแล
 
 ## Render diagrams ซ้ำ
 

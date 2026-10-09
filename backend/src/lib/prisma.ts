@@ -1,2 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-export const prisma = new PrismaClient();
+import { databaseUrlForRuntime } from "./database-url.js";
+export const prisma = new PrismaClient({
+  datasourceUrl: databaseUrlForRuntime(
+    process.env.DATABASE_URL!,
+    process.env.VERCEL === "1",
+  ),
+});

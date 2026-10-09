@@ -1,6 +1,10 @@
 # แผนภาพระบบ
 
-สร้างจาก Mermaid source ใน `docs/diagrams/` และตรงกับ implementation ปัจจุบัน Cloud topology เป็นเป้าหมายที่เตรียมไว้ ยังไม่ได้ deploy ส่วน local topology ทดสอบบน MySQL จริงแล้ว
+สร้างจาก Mermaid source ใน `docs/diagrams/` ระบบ production deploy แล้ว: React SPA และ Express API อยู่คนละ Vercel project, ฐานข้อมูลเป็น TiDB Cloud ตามข้อมูลผู้ดูแล ส่วน local/CI ใช้ MySQL 8.4 Backend เป็น Modular Monolith ไม่ใช่ Microservices
+
+Frontend: https://project-short-url-react-node.vercel.app · Backend: https://project-short-url-react-node-osq6.vercel.app
+
+ดูหลักฐานการตรวจใน [verification.md](verification.md)
 
 ## DFD Level 0
 
@@ -99,11 +103,11 @@ erDiagram
 ```mermaid
 flowchart TB
   Browser[Browser / React SPA]
-  subgraph FrontendProject[Frontend Vercel project - planned]
+  subgraph FrontendProject[Frontend Vercel project - deployed]
     Static[Vite dist / React Router / Thai UI]
     Proxy[Rewrites: /api /s /healthz]
   end
-  subgraph BackendProject[Backend Vercel project - planned]
+  subgraph BackendProject[Backend Vercel project - deployed]
     App[Express default export: src/app.ts]
     Middleware[Origin / session / rate limit / errors]
     Routes[Router]
@@ -111,19 +115,13 @@ flowchart TB
     Services[Service: business logic]
     Prisma[Prisma 6.19.3 - mysql connector]
   end
-  Database[(New cloud MySQL or approved TiDB - pending)]
+  Database[(TiDB Cloud - production)]
   Browser -->|HTML / CSS / JS| Static
   Browser -->|same-origin Fetch / HttpOnly cookie / public redirect| Proxy
   Proxy -->|preserve path and query| App
   App --> Middleware --> Routes --> Controllers --> Services --> Prisma
-  Prisma -->|TLS strict| Database
+  Prisma -->|MySQL-compatible connection| Database
   Services -->|QR PNG / SVG or 302 after event commit| App
-  subgraph Local[Implemented and tested local topology]
-    Vite[Vite localhost:5173]
-    Express[Express localhost:3001]
-    MySQL[(Independent MySQL 8.4.11 port 3308)]
-    Vite -->|dev proxy with /s/ boundary| Express --> MySQL
-  end
 ```
 
 rate_limits ไม่มี foreign key เพราะจำกัดทั้ง IP ก่อนล็อกอินและ user หลังล็อกอิน ใช้ HMAC key ไม่เก็บ IP ตรง ๆ FK ที่มีใน schema ใช้ cascade; ไม่มี API hard delete ในรุ่นแรก ข้อมูลเวลาเก็บ UTC และสรุปวัน Bangkok +07:00

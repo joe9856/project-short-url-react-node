@@ -2,7 +2,7 @@
 
 > **Standalone comparison plan** — ดัดแปลงแนวทางจาก `PLAN.md` ของ `D:\Projects\short-url-demo` เพื่อสร้าง **โปรเจกต์ใหม่** เท่านั้น ห้ามแก้ไข ย้าย ลบ หรือเขียนทับโปรเจกต์ Next.js เดิม รวมถึงฐานข้อมูล Production เดิม
 >
-> **สถานะ:** เป็นแผน ไม่ใช่ Source Code หรือหลักฐานว่าพัฒนาหรือ Deploy สำเร็จแล้ว
+> **สถานะ:** ไฟล์นี้กำหนดขอบเขตงาน; implementation ถูก push และ deploy แล้ว สถานะและหลักฐานปัจจุบันอยู่ใน `README.md`, `docs/verification.md` และ `docs/submission.md` ห้ามใช้ข้อความในแผนแทนผลทดสอบจริง
 
 ## 1. วัตถุประสงค์และ Technology Stack
 
@@ -14,7 +14,7 @@
 | Backend | Node.js 22 LTS + Express.js + TypeScript |
 | Architecture | React SPA แยกจาก Express API; Backend เป็น Modular Monolith |
 | Data access | Prisma ORM 6.19.x (`provider = "mysql"`), ตรวจ patch/compatibility ก่อนติดตั้ง |
-| Database | TiDB Cloud Starter (หาก HR อนุญาต) และ MySQL จริงสำหรับการทดสอบ; ถ้า HR ไม่อนุญาตให้ใช้ Hosted MySQL จริง |
+| Database | Production ใช้ TiDB Cloud (ผู้ดูแลยืนยัน); local/CI ใช้ MySQL 8.4 จริง ต้องยืนยัน HR ว่า TiDB ได้รับอนุญาต หากไม่อนุญาตให้ใช้ Hosted MySQL จริง |
 | Auth / Validation | Argon2id, database-backed session token + HttpOnly cookie, Zod |
 | QR / Analytics | qrcode (PNG/SVG), Recharts |
 | Quality | Vitest, Supertest, Playwright, TypeScript strict, ESLint |
@@ -150,7 +150,7 @@ Prisma `provider="mysql"`. ใช้เวลา UTC ใน DB; Analytics แส
 - Analytics: COUNT ClickEvents จริง รวม repeat/bot ไม่ใช่ unique visitors; ลงวันตาม Bangkok และเติมวันไม่มี event เป็น 0; sources จาก referrer hostname เท่านั้น ไม่เก็บ IP หรือ UA เต็มใน ClickEvent
 - Auth: Argon2id password hash; session opaque random token โดย hash token ใน DB; cookie HttpOnly Secure (Production HTTPS), SameSite=Lax สำหรับ Proxy Same-origin, TTL 7 วัน; Logout revoke DB row + clear cookie; ไม่ใช้ LocalStorage token
 - Security: ตรวจ Origin เทียบ `APP_URL` จาก trusted configuration; validate fields, ownership, max body size, rate limit Login/Register/Create ด้วย DB-backed atomic counters และ HMAC key; no secrets ใน Client/VITE env; production HTTPS/TLS certificate verification
-- Concurrency: บันทึก event แต่ละครั้งแทน read-modify-write counter; Prisma transaction สั้นและทดสอบ GET 20 requests พร้อมกัน
+- Concurrency: บันทึก event แต่ละครั้งแทน read-modify-write counter; Redirect await single event insert ก่อน 302 โดยไม่เปิด interactive transaction เพราะ URL/code คงที่และไม่มี hard delete; Auth/rate limits ใช้ transaction สั้น และทดสอบ GET 20 requests พร้อมกัน
 
 ## 8. API Contract (Express Router + Controller)
 
@@ -259,7 +259,7 @@ Mobile 390px: Header compact, cards 1 column, History เปลี่ยนเ�
 
 ## 14. กติกาการเริ่มสร้างโปรเจกต์จากไฟล์นี้
 
-- ก่อนลงมือ ให้สร้างโฟลเดอร์ใหม่ `D:\Projects\short-url-react-node` และนำเอกสารนี้ไปไว้ที่ `PLAN.md` ในโฟลเดอร์ใหม่นั้น
+- ก่อนลงมือ ให้สร้างโฟลเดอร์ใหม่ `D:\Projects-Short-URL\short-url-react-node` และนำเอกสารนี้ไปไว้ที่ `PLAN.md` ในโฟลเดอร์ใหม่นั้น
 - ตรวจ `pwd`/Active Workspace ให้ตรงโฟลเดอร์ใหม่; ไม่ใช้ `D:\Projects\short-url-demo` เป็น cwd และห้ามแก้ `PLAN.md` เดิมหรือไฟล์ Next.js เดิม
 - ให้ AI พัฒนาตามแผนทีละ Phase ต่อเนื่อง; เริ่ม Core → QR/History → Auth/Extras → Test/Docs/Deploy
 - ไม่ย้าย `.env` หรือคัดลอก secrets ของ Next.js; ใช้ฐานข้อมูลแยกหรืออย่างน้อย database schema/namespace ที่แยกจริง พร้อม credentials ตามสิทธิ์

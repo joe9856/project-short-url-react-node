@@ -1,21 +1,28 @@
 {
-  "measuredAt": "2026-10-08T19:46:06.540Z",
+  "measuredAt": "2026-10-09T14:43:37.095Z",
   "method": "src only: .ts/.tsx/.css including .d.ts, excluding .test files; no generated/build/runtime/docs",
   "applications": [
     {
       "directory": "frontend/src",
+      "available": true,
+      "measuredAt": "2026-10-09T14:43:37.095Z",
       "files": 15,
-      "lines": 2443
+      "lines": 2654
     },
     {
       "directory": "backend/src",
-      "files": 25,
-      "lines": 894
+      "available": true,
+      "measuredAt": "2026-10-09T14:43:37.095Z",
+      "files": 26,
+      "lines": 906
     },
     {
       "directory": "../short-url-demo/src",
       "files": 46,
-      "lines": 3568
+      "lines": 3568,
+      "available": false,
+      "measuredAt": "2026-10-08T19:46:06.540Z",
+      "note": "Previous measurement retained; source unavailable in this workspace"
     }
   ]
 }

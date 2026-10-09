@@ -42,7 +42,9 @@ Router ตรวจ session จึงได้ userId จาก server; Controll
 
 **ไฟล์:** backend `routes/redirect.ts`, `controllers/redirect.ts`, `services/redirect.ts`, `services/links.ts`
 
-Input คือ code, method, Referer และ User-Agent; output 302 Location หรือ 404/410/503 Router → Controller → Service → Prisma transaction ตรวจสถานะ/expiry แล้ว GET insert event ก่อนจบ transaction Controller serialize URL เพื่อใช้ Unicode ใน Location ได้และตอบ no-store; HEAD ผ่านการตรวจเหมือนกันแต่ไม่ insert
+Input คือ code, method, Referer และ User-Agent; output 302 Location หรือ 404/410/503 Router → Controller → Service → Prisma อ่านลิงก์และตรวจสถานะ/expiry แล้ว GET await event insert ที่ commit แล้วก่อน 302 Controller serialize URL เพื่อใช้ Unicode ใน Location ได้และตอบ no-store; HEAD ตรวจเหมือนกันแต่ไม่ insert
+
+Redirect ไม่เปิด interactive transaction ระหว่างอ่านและเขียน เพราะ URL/code แก้ไม่ได้ ไม่มี API hard delete และ FK ป้องกัน event ที่ไม่มีลิงก์ แต่ละ event เป็น write แยกที่ atomic จึงไม่เสียยอดจาก counter race ลดเวลาถือ connection บน serverless และยังไม่ตอบ 302 หาก event insert ล้มเหลว Auth และ rate limits ยังใช้ transaction ตามเดิม
 
 จำนวนคลิกมาจาก COUNT event จริง ไม่มีฟิลด์ click counter แบบอ่านแล้วบวกแล้วเขียน จึงไม่เกิด lost updates ระหว่าง 20 requests ยอดรวมการเปิดซ้ำและบอตด้วย ไม่อ้างเป็น unique visitor Referer เก็บเฉพาะ hostname; UA ใช้จัด device category แล้วทิ้ง ไม่เก็บ IP/UA เต็มใน click_events
 
@@ -114,7 +116,7 @@ Origin เทียบ config APP_URL ไม่เชื่อ Host/X-Forwarded-
 
 - ทำไมไม่ใช้ memory limiter? serverless มีหลาย instances จึงต้องมี store ที่ร่วมกันได้
 - CORS แทน Origin check ได้ไหม? CORS ควบคุมการอ่าน response ของ browser ไม่ใช่การอนุญาต mutation ทุกกรณี ต้องตรวจ Origin ที่ server ด้วย
-- Deploy เสร็จหรือยัง? ยังไม่ได้ deploy ต้องมี destinations/cloud DB ใหม่และทดสอบ HTTPS rewrites/Set-Cookie/302/QR จริง ห้ามใช้ผล local อ้างเป็น production
+- Deploy เสร็จหรือยัง? Frontend และ Backend deploy บน Vercel แล้ว ใช้ TiDB Cloud ตามข้อมูลผู้ดูแล ตรวจ API ผ่าน public HTTPS จริงทั้ง session cookie, create, 302, QR และ analytics แยกหลักฐานออนไลน์จาก MySQL/CI และระบุการสแกนมือถือที่ยังต้องตรวจตาม `verification.md`
 
 ## Demo ภายใน 30 นาที
 

@@ -28,27 +28,19 @@ export async function resolveRedirect(
 ) {
   if (!/^[a-z0-9-]{3,32}$/.test(code))
     throw new AppError(404, "LINK_NOT_FOUND", "ไม่พบลิงก์");
-  return prisma.$transaction(
-    async (tx) => {
-      const link = await tx.link.findUnique({ where: { code } });
-      if (!link) throw new AppError(404, "LINK_NOT_FOUND", "ไม่พบลิงก์");
-      if (linkStatus(link) !== "active")
-        throw new AppError(
-          410,
-          "LINK_UNAVAILABLE",
-          "ลิงก์ถูกปิดหรือหมดอายุแล้ว",
-        );
-      // แต่ละ GET มี event ของตัวเอง ไม่ใช้ counter แบบอ่านแล้วเขียนทับ
-      if (countClick)
-        await tx.clickEvent.create({
-          data: {
-            linkId: link.id,
-            referrerHost: referrerHost(referrer),
-            deviceType: deviceCategory(agent),
-          },
-        });
-      return link.originalUrl;
-    },
-    { maxWait: 10000, timeout: 10000 },
-  );
+  const link = await prisma.link.findUnique({ where: { code } });
+  if (!link) throw new AppError(404, "LINK_NOT_FOUND", "ไม่พบลิงก์");
+  if (linkStatus(link) !== "active")
+    throw new AppError(410, "LINK_UNAVAILABLE", "ลิงก์ถูกปิดหรือหมดอายุแล้ว");
+  // URL/code แก้ไม่ได้และไม่มี hard delete จึงไม่ต้องถือ connection ใน interactive transaction
+  // แต่ละ GET await event ที่ commit แล้วก่อน 302; หาก insert ล้มเหลวจะไม่ส่งต่อ
+  if (countClick)
+    await prisma.clickEvent.create({
+      data: {
+        linkId: link.id,
+        referrerHost: referrerHost(referrer),
+        deviceType: deviceCategory(agent),
+      },
+    });
+  return link.originalUrl;
 }

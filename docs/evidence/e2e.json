@@ -1,12 +1,12 @@
 {
   "config": {
     "argv": [
-      "D:\\Projects\\short-url-react-node\\.runtime\\node_modules\\node\\bin\\node.exe",
-      "D:\\Projects\\short-url-react-node\\node_modules\\@playwright\\test\\cli.js",
+      "D:\\Projects-Short-URL\\short-url-react-node\\.runtime\\node_modules\\node\\bin\\node.exe",
+      "D:\\Projects-Short-URL\\short-url-react-node\\node_modules\\@playwright\\test\\cli.js",
       "test"
     ],
-    "configFile": "D:\\Projects\\short-url-react-node\\playwright.config.ts",
-    "rootDir": "D:/Projects/short-url-react-node/tests/e2e",
+    "configFile": "D:\\Projects-Short-URL\\short-url-react-node\\playwright.config.ts",
+    "rootDir": "D:/Projects-Short-URL/short-url-react-node/tests/e2e",
     "failOnFlakyTests": false,
     "forbidOnly": false,
     "fullyParallel": false,
@@ -22,7 +22,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "D:/Projects/short-url-react-node/test-results",
+        "outputDir": "D:/Projects-Short-URL/short-url-react-node/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -30,7 +30,7 @@
         },
         "id": "desktop-1440",
         "name": "desktop-1440",
-        "testDir": "D:/Projects/short-url-react-node/tests/e2e",
+        "testDir": "D:/Projects-Short-URL/short-url-react-node/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -38,7 +38,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "D:/Projects/short-url-react-node/test-results",
+        "outputDir": "D:/Projects-Short-URL/short-url-react-node/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -46,7 +46,7 @@
         },
         "id": "tablet-768",
         "name": "tablet-768",
-        "testDir": "D:/Projects/short-url-react-node/tests/e2e",
+        "testDir": "D:/Projects-Short-URL/short-url-react-node/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -54,7 +54,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "D:/Projects/short-url-react-node/test-results",
+        "outputDir": "D:/Projects-Short-URL/short-url-react-node/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -62,7 +62,7 @@
         },
         "id": "mobile-390",
         "name": "mobile-390",
-        "testDir": "D:/Projects/short-url-react-node/tests/e2e",
+        "testDir": "D:/Projects-Short-URL/short-url-react-node/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -74,15 +74,15 @@
       {
         "grep": {},
         "grepInvert": null,
-        "outputDir": "D:\\Projects\\short-url-react-node\\test-results",
+        "outputDir": "D:\\Projects-Short-URL\\short-url-react-node\\test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
           "actualWorkers": 1
         },
         "name": "desktop-1440",
-        "testDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
-        "snapshotDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
+        "testDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
+        "snapshotDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
         "testIgnore": [],
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 60000,
@@ -103,15 +103,15 @@
       {
         "grep": {},
         "grepInvert": null,
-        "outputDir": "D:\\Projects\\short-url-react-node\\test-results",
+        "outputDir": "D:\\Projects-Short-URL\\short-url-react-node\\test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
           "actualWorkers": 1
         },
         "name": "tablet-768",
-        "testDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
-        "snapshotDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
+        "testDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
+        "snapshotDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
         "testIgnore": [],
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 60000,
@@ -132,15 +132,15 @@
       {
         "grep": {},
         "grepInvert": null,
-        "outputDir": "D:\\Projects\\short-url-react-node\\test-results",
+        "outputDir": "D:\\Projects-Short-URL\\short-url-react-node\\test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
           "actualWorkers": 1
         },
         "name": "mobile-390",
-        "testDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
-        "snapshotDir": "D:\\Projects\\short-url-react-node\\tests\\e2e",
+        "testDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
+        "snapshotDir": "D:\\Projects-Short-URL\\short-url-react-node\\tests\\e2e",
         "testIgnore": [],
         "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
         "timeout": 60000,
@@ -218,12 +218,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 11592,
+                  "duration": 15076,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:26.911Z",
+                  "startTime": "2026-10-09T14:44:22.944Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -252,12 +252,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1278,
+                  "duration": 707,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:38.810Z",
+                  "startTime": "2026-10-09T14:44:39.533Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -286,12 +286,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5371,
+                  "duration": 5412,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:41.440Z",
+                  "startTime": "2026-10-09T14:44:41.032Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -320,12 +320,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1137,
+                  "duration": 642,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:47.141Z",
+                  "startTime": "2026-10-09T14:44:46.842Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -354,12 +354,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 7207,
+                  "duration": 4301,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:49.083Z",
+                  "startTime": "2026-10-09T14:44:48.182Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -388,12 +388,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1192,
+                  "duration": 647,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-08T19:50:56.581Z",
+                  "startTime": "2026-10-09T14:44:52.713Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -411,8 +411,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-08T19:50:23.214Z",
-    "duration": 35586.505,
+    "startTime": "2026-10-09T14:44:11.071Z",
+    "duration": 43283.43,
     "expected": 6,
     "skipped": 0,
     "unexpected": 0,

@@ -29,6 +29,7 @@ export default tseslint.config(
         window: "readonly",
         XMLSerializer: "readonly",
         AbortController: "readonly",
+        AbortSignal: "readonly",
       },
     },
     rules: {

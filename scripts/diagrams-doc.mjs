@@ -5,7 +5,7 @@ const diagrams = [
   ["Architecture Diagram", "architecture"],
 ];
 let document =
-  "# แผนภาพระบบ\n\nสร้างจาก Mermaid source ใน `docs/diagrams/` และตรงกับ implementation ปัจจุบัน Cloud topology เป็นเป้าหมายที่เตรียมไว้ ยังไม่ได้ deploy ส่วน local topology ทดสอบบน MySQL จริงแล้ว\n\n";
+  "# แผนภาพระบบ\n\nสร้างจาก Mermaid source ใน `docs/diagrams/` ระบบ production deploy แล้ว: React SPA และ Express API อยู่คนละ Vercel project, ฐานข้อมูลเป็น TiDB Cloud ตามข้อมูลผู้ดูแล ส่วน local/CI ใช้ MySQL 8.4 Backend เป็น Modular Monolith ไม่ใช่ Microservices\n\nFrontend: https://project-short-url-react-node.vercel.app · Backend: https://project-short-url-react-node-osq6.vercel.app\n\nดูหลักฐานการตรวจใน [verification.md](verification.md)\n\n";
 for (const [title, file] of diagrams)
   document += `## ${title}\n\n[เปิด SVG](diagrams/${file}.svg) · [เปิด PNG](diagrams/${file}.png)\n\n\`\`\`mermaid\n${readFileSync(`docs/diagrams/${file}.mmd`, "utf8")}\`\`\`\n\n`;
 document +=

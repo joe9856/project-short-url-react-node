@@ -36,7 +36,7 @@
 - [x] เตรียมบัญชีสาธิตเฉพาะ เก็บ credentials นอก Git
 - [ ] ยืนยันกับบริษัทว่า TiDB Cloud ใช้แทน MySQL ตามโจทย์ได้
 - [ ] สแกน QR ด้วยโทรศัพท์จริง ตรวจว่าเปิดเว็บไซต์ต้นฉบับ และยอดคลิกเพิ่ม
-- [ ] ทบทวนผล persistence หลัง deployment ล่าสุดใน `verification.md`
+- [x] ตรวจข้อมูลลิงก์/ยอดคลิกและ session ที่ออกก่อน redeploy ตาม `verification.md` และ `evidence/persistence.json`
 - [ ] ระบุวันที่ได้รับโจทย์เพื่อเช็คกำหนดส่งภายใน 3 วัน
 - [ ] ส่ง Repository/Frontend URL และ credentials (หากใช้บัญชีสาธิต) ให้ผู้ตรวจ แล้วนัด Video Call
 

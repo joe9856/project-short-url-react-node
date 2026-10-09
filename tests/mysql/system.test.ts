@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import request from "supertest";
 import { randomUUID } from "node:crypto";
+import { createServer } from "node:http";
 import { PNG } from "pngjs";
 import jsQR from "jsqr";
 import { app } from "../../backend/src/app";
@@ -10,8 +11,10 @@ import { sessionCookie, tokenHash } from "../../backend/src/services/auth";
 const origin = "http://localhost:5173";
 const email = `integration-${randomUUID()}@example.com`;
 const password = "IntegrationPassword123!";
-const alice = request.agent(app);
-const bob = request.agent(app);
+// เปิด listener เดียวตลอด suite: Supertest ไม่ปิด server เมื่อ request แรกของ batch จบ
+const server = createServer(app);
+const alice = request.agent(server);
+const bob = request.agent(server);
 let id = "";
 let code = "";
 let ownerId = "";
@@ -20,10 +23,15 @@ beforeAll(async () => {
     new URL(process.env.DATABASE_URL!).pathname !== "/short_url_react_node_test"
   )
     throw new Error("Refusing to modify a non-test database");
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   await prisma.rateLimit.deleteMany();
   await prisma.user.deleteMany();
 });
 afterAll(async () => {
+  if (server.listening)
+    await new Promise<void>((resolve, reject) => {
+      server.close((error) => (error ? reject(error) : resolve()));
+    });
   await prisma.$disconnect();
 });
 describe("real MySQL API flow", () => {

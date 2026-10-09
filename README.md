@@ -1,5 +1,7 @@
 # Short URL — React + Express
 
+[![CI](https://github.com/joe9856/project-short-url-react-node/actions/workflows/ci.yml/badge.svg)](https://github.com/joe9856/project-short-url-react-node/actions/workflows/ci.yml)
+
 ระบบย่อลิงก์ภาษาไทยที่ทำงานจริง แยก React SPA และ Express REST API ใน repository เดียว พัฒนาตาม `PLAN.md` เพื่อเปรียบเทียบกับ Next.js โดยไม่ได้แก้ไขโปรเจกต์ `D:\Projects\short-url-demo` ไม่ใช้ `.env`, Git, session secret หรือฐานข้อมูลของโปรเจกต์เดิม
 
 ## ทดลองออนไลน์และ Repository
@@ -119,4 +121,4 @@ React 19.3.0, Vite 7.3.7, React Router 7.18.4, Tailwind 4.3.3, Express 5.2.1, Ty
 
 Source ถูก push ไป Public GitHub และ deploy Frontend/Backend บน Vercel แล้ว `frontend/vercel.json` ใช้ backend hostname จริง ผล CI ของ application commit `818575739598e8bbc25b0522195d4c476d7ee7dd` ผ่านทั้ง 33 unit/React/API tests, 13 MySQL integration tests, 6 browser E2E scenarios และ build ดูผลจริงและวันที่ตรวจใน `docs/verification.md`
 
-ตรวจออนไลน์ผ่าน HTTPS แล้วทั้งสมัคร/เข้า/ออกจากระบบ, Secure HttpOnly session cookie, สร้าง/เปิด Short URL, QR PNG/SVG, ประวัติ/คลิก, alias/duplicate, เปิด–ปิด/วันหมดอายุ และ **20 concurrent GET = 20 clicks** QR ถูก decode ด้วยโปรแกรมเป็น public Short URL ถูกต้อง ส่วนการสแกนด้วยโทรศัพท์จริงและการยอมรับ TiDB ตามโจทย์ต้องยืนยันแยก ไม่ควรระบุว่างานสองส่วนนี้ผ่านหากยังไม่มีหลักฐาน
+ตรวจออนไลน์ผ่าน HTTPS แล้วทั้งสมัคร/เข้า/ออกจากระบบ, Secure HttpOnly session cookie, สร้าง/เปิด Short URL, QR PNG/SVG, ประวัติ/คลิก, alias/duplicate, เปิด–ปิด/วันหมดอายุ และ **20 concurrent GET = 20 clicks** ข้อมูลลิงก์/ยอดคลิกและ session เดิมยังใช้งานหลัง redeploy QR ถูก decode ด้วยโปรแกรมเป็น public Short URL ถูกต้อง ส่วนการสแกนด้วยโทรศัพท์จริงและการยอมรับ TiDB ตามโจทย์ต้องยืนยันแยก ไม่ควรระบุว่างานสองส่วนนี้ผ่านหากยังไม่มีหลักฐาน

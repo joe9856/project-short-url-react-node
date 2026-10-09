@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-09T14:55:06.053Z",
+  "origin": "https://project-short-url-react-node.vercel.app",
+  "beforeCommit": "818575739598e8bbc25b0522195d4c476d7ee7dd",
+  "afterCommit": "e0552345ab9f0f0e49d679c399cdb051afdc310f",
+  "capturedAt": "2026-10-09T14:51:44.966Z",
+  "link": {
+    "id": "63da1ae1-96c2-434c-a959-e8461e597c78",
+    "code": "vcd5yye1",
+    "shortUrl": "https://project-short-url-react-node.vercel.app/s/vcd5yye1",
+    "clicksBefore": 20,
+    "clicksAfter": 20
+  },
+  "results": [
+    {
+      "name": "Session issued before redeploy still authenticates the same user",
+      "status": "passed"
+    },
+    {
+      "name": "Link ID, code, original URL, short URL and click count preserved after redeploy",
+      "status": "passed"
+    },
+    {
+      "name": "Existing short URL still redirects without adding a HEAD click",
+      "status": "passed"
+    }
+  ],
+  "limitations": [
+    "Deployment commit association verified separately from GitHub deployment statuses",
+    "Physical phone QR scan not performed"
+  ]
+}
